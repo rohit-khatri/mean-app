@@ -2,11 +2,21 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const Post = require('./models/post');
+const postRoute = require('./routes/posts');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
+/*mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
+{ useNewUrlParser: true })
+.then(() => {
+  console.log('Connected to MongoDB');
+})
+.catch(()=>{
+  console.log('Connection failed.');
+});
+*/
+
+mongoose.connect("mongodb://localhost:27017/mean-app",
 { useNewUrlParser: true })
 .then(() => {
   console.log('Connected to MongoDB');
@@ -26,31 +36,11 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
   );
   next();
 });
 
-app.post("/api/v1/posts", (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    description: req.body.description
-  });
-
-  post.save();
-  res.status(201).json({
-    message: 'Post added successfully'
-  });
-});
-
-app.get("/api/v1/posts", (req, res, next) => {
-  Post.find()
-  .then((documents) => {
-    res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: documents
-    });
-  });
-});
+app.use('/api/v1/posts', postRoute);
 
 module.exports = app;
