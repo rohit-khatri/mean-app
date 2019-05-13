@@ -108,7 +108,6 @@ routes.get("", (req, res, next) => {
 routes.delete("/:id", (req, res, next) => {
   Post.deleteOne({_id: req.params.id})
   .then(result => {
-    console.log('Deleted');
     res.status(200).json({'message': 'Post deleted.'});
   })
 });
