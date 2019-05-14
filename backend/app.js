@@ -8,7 +8,8 @@ const userRoute = require('./routes/users');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
+//mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
+mongoose.connect("mongodb://localhost:27017/mean-app",
 {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -19,16 +20,6 @@ mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb
 .catch(()=>{
   console.log('Connection failed.');
 });
-
-
-// mongoose.connect("mongodb://localhost:27017/mean-app",
-// { useNewUrlParser: true })
-// .then(() => {
-//   console.log('Connected to MongoDB');
-// })
-// .catch(()=>{
-//   console.log('Connection failed.');
-// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

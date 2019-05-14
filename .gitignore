@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 # Images
-/backend/images
+/backend/images/*
