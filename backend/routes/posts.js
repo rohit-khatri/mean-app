@@ -32,7 +32,8 @@ routes.post("", checkAuth, multer({storage: storage}).single('image'),(req, res,
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
-    imagePath: url + '/images/' + req.file.filename
+    imagePath: url + '/images/' + req.file.filename,
+    createdBy: req.userData.userId
   });
 
   post.save().then(responseData => {
@@ -60,12 +61,19 @@ routes.put("/:id", checkAuth, multer({storage: storage}).single('image'), (req, 
     imagePath: imagePath
   });
 
-  Post.updateOne({_id: req.params.id}, post)
+  Post.updateOne({_id: req.params.id, createdBy: req.userData.userId}, post)
   .then(result => {
-    res.status(201).json({
-      message: 'Post updated successfully',
-      imagePath: result.imagePath
-    });
+    if(result.nModified > 0) {
+      res.status(200).json({
+        message: 'Post updated successfully',
+        imagePath: result.imagePath
+      });
+    } else {
+      res.status(401).json({
+        message: 'Not authorized to updated this post'
+      });
+    }
+
   });
 });
 
@@ -107,9 +115,14 @@ routes.get("", (req, res, next) => {
 });
 
 routes.delete("/:id", checkAuth, (req, res, next) => {
-  Post.deleteOne({_id: req.params.id})
+  Post.deleteOne({_id: req.params.id, createdBy: req.userData.userId})
   .then(result => {
-    res.status(200).json({'message': 'Post deleted.'});
+    if(result.n > 0) {
+      res.status(200).json({'message': 'Post deleted.'});
+    } else {
+      res.status(401).json({'message': 'Not authorized to delete this post'});
+    }
+
   })
 });
 
