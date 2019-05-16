@@ -8,8 +8,8 @@ const userRoute = require('./routes/users');
 
 const app = express();
 
-//mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
-mongoose.connect("mongodb://localhost:27017/mean-app",
+mongoose.connect("mongodb+srv://mean-app:hpK3EY9HTo7m2umP@cluster0-edp97.mongodb.net/mean-app?retryWrites=true",
+//mongoose.connect("mongodb://localhost:27017/mean-app",
 {
   useNewUrlParser: true,
   useCreateIndex: true

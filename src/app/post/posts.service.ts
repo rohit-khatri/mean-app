@@ -46,7 +46,8 @@ export class PostsService {
       id: string,
       title: string,
       description: string,
-      imagePath: string }>('http://localhost:3000/api/v1/posts/' + postId);
+      imagePath: string,
+      createdBy: string }>('http://localhost:3000/api/v1/posts/' + postId);
   }
   getPostUpdatedListner() {
     return this.postsUpdated.asObservable();
@@ -77,7 +78,8 @@ export class PostsService {
         id,
         title,
         description,
-        imagePath: image
+        imagePath: image,
+        createdBy: null
       };
     }
     this.http.put<{message: string, imagePath: string}>('http://localhost:3000/api/v1/posts/' + id, postData)
